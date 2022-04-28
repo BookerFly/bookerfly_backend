@@ -1,4 +1,4 @@
-package ntut.edu.tw.bookerfly.entity;
+package ntut.edu.tw.bookerfly.entity.collection;
 
 import java.util.UUID;
 

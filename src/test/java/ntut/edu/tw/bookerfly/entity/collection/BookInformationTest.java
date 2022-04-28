@@ -1,4 +1,4 @@
-package ntut.edu.tw.bookerfly.entity;
+package ntut.edu.tw.bookerfly.entity.collection;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

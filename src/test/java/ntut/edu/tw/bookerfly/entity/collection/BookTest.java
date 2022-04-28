@@ -1,4 +1,4 @@
-package ntut.edu.tw.bookerfly.entity;
+package ntut.edu.tw.bookerfly.entity.collection;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,5 +15,15 @@ public class BookTest {
         assertEquals(BookStatus.AVAILABLE, book.getBookStatus());
         assertEquals("Lab1321", book.getBookshelfPosition());
         assertEquals(1, book.getBookshelfNumber());
+    }
+
+    @Test
+    public void set_book_status() {
+        BookInformation bookInfo = new BookInformation("title", "author", "isbn", "image", "type");
+        Book book = new Book(bookInfo.getBookInfoId(), BookStatus.AVAILABLE, "Lab1321", 1);
+
+        book.setBookStatus(BookStatus.CHECKED_OUT);
+
+        assertEquals(BookStatus.CHECKED_OUT, book.getBookStatus());
     }
 }

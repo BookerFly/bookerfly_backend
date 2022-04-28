@@ -1,11 +1,9 @@
-package ntut.edu.tw.bookerfly.entity;
+package ntut.edu.tw.bookerfly.entity.collection;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CollectionTest {
@@ -98,6 +96,6 @@ public class CollectionTest {
             collection.borrowBook(book.getBookId());
         });
 
-        Assertions.assertEquals("The book is already checked out.", exception.getMessage());
+        assertEquals("The book is already checked out.", exception.getMessage());
     }
 }
