@@ -8,6 +8,7 @@ public class BookerflyApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BookerflyApplication.class, args);
-	}
 
+		System.out.println("Bookerfly running...");
+	}
 }

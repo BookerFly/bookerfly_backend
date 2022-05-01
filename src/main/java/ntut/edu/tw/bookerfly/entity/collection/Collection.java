@@ -1,5 +1,8 @@
 package ntut.edu.tw.bookerfly.entity.collection;
 
+import ntut.edu.tw.bookerfly.respository.BookInformationRepository;
+import ntut.edu.tw.bookerfly.respository.BookRepository;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -8,9 +11,23 @@ public class Collection {
     private List<BookInformation> bookInfos;
     private List<Book> books;
 
+    private BookInformationRepository bookInformationRepository;
+    private BookRepository bookRepository;
+
+    public Collection(BookInformationRepository bookInformationRepository, BookRepository bookRepository) {
+        this.bookInformationRepository = bookInformationRepository;
+        this.bookRepository = bookRepository;
+        bookInfos = bookInformationRepository.findAll();
+        books = bookRepository.findAll();
+    }
+
     public Collection() {
         bookInfos = new ArrayList<>();
         books = new ArrayList<>();
+        bookInfos.add(new BookInformation("OOAD", "wk", "ISBN", "image", "book"));
+        System.out.println("BookInfoId: " + bookInfos.get(0).getBookInfoId());
+        books.add(new Book(bookInfos.get(0).getBookInfoId(), BookStatus.AVAILABLE, "lab1321", 1));
+        System.out.println("BookId: " + books.get(0).getBookId());
     }
 
     public void createBook(String title, String author, String ISBN, String image, String type, String bookshelfPosition, int bookshelfNumber, int count) {
@@ -21,12 +38,15 @@ public class Collection {
             bookInfoId = bookInfo.get().getBookInfoId();
         } else {
             BookInformation bookInformation = new BookInformation(title, author, ISBN, image, type);
+            bookInformationRepository.save(bookInformation);
             bookInfos.add(bookInformation);
             bookInfoId = bookInformation.getBookInfoId();
         }
 
         for (int i = 0; i < count; i++) {
-            books.add(new Book(bookInfoId, BookStatus.AVAILABLE, bookshelfPosition, bookshelfNumber));
+            Book book = new Book(bookInfoId, BookStatus.AVAILABLE, bookshelfPosition, bookshelfNumber);
+            bookRepository.save(book);
+            books.add(book);
         }
     }
 
