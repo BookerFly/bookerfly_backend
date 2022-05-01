@@ -25,8 +25,12 @@ public class BorrowBookHandler {
     }
 
     @GetMapping(path = "bookerfly/collection/select/book-infos/{bookInfoId}", produces = "application/json")
-    public List<Book> selectBook(@PathVariable("bookInfoId") String bookInfoId) {
-        return collection.selectBook(bookInfoId);
+    public ResponseEntity<Object> selectBook(@PathVariable("bookInfoId") String bookInfoId) {
+        try {
+            return new ResponseEntity<>(collection.selectBook(bookInfoId), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to select book, caused by " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping(path = "bookerfly/collection/books/{bookId}/borrow", produces = "application/json")
