@@ -1,5 +1,6 @@
 package ntut.edu.tw.bookerfly.entity.record;
 
+import ntut.edu.tw.bookerfly.AbstractSpringJpaTest;
 import ntut.edu.tw.bookerfly.entity.collection.Book;
 import ntut.edu.tw.bookerfly.entity.collection.BookInformation;
 import ntut.edu.tw.bookerfly.entity.collection.BookStatus;
@@ -8,21 +9,24 @@ import java.util.List;
 import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class RecordManagerTest {
+public class RecordManagerTest extends AbstractSpringJpaTest {
+
     @Test
     public void create_a_check_out_record() {
         BookInformation bookInfo = new BookInformation("title", "author", "isbn", "image", "type");
         Book book = new Book(bookInfo.getBookInfoId(), BookStatus.AVAILABLE, "Lab1321", 1);
         book.setBookStatus(BookStatus.CHECKED_OUT);
         String userId = UUID.randomUUID().toString();
+        int originalCount = recordManager.getCheckOutRecordList().size();
 
-        RecordManager recordManager = new RecordManager();
         recordManager.createCheckOutRecord(book.getBookId(), userId);
 
+        int currentCount = recordManager.getCheckOutRecordList().size();
         List<CheckOutRecord> checkOutRecordList = recordManager.getCheckOutRecordList();
-        assertEquals(1, checkOutRecordList.size());
-        assertEquals(book.getBookId(), checkOutRecordList.get(0).getBookId());
-        assertEquals(BookStatus.CHECKED_OUT, checkOutRecordList.get(0).getBookStatus());
-        assertEquals(userId, checkOutRecordList.get(0).getUserId());
+        assertEquals(1, currentCount - originalCount);
+        CheckOutRecord checkOutRecord = checkOutRecordList.get(currentCount-1);
+        assertEquals(book.getBookId(), checkOutRecord.getBookId());
+        assertEquals(BookStatus.CHECKED_OUT, checkOutRecord.getBookStatus());
+        assertEquals(userId, checkOutRecord.getUserId());
     }
 }

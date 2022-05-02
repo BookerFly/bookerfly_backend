@@ -11,12 +11,14 @@ public class RepositoryInjection {
     private BorrowerRepositoryPeer borrowerRepositoryPeer;
     private BookRepositoryPeer bookRepositoryPeer;
     private BookInformationRepositoryPeer bookInformationRepositoryPeer;
+    private CheckOutRecordRepositoryPeer checkOutRecordRepositoryPeer;
 
     @Autowired
-    public RepositoryInjection(BorrowerRepositoryPeer borrowerRepositoryPeer, BookRepositoryPeer bookRepositoryPeer, BookInformationRepositoryPeer bookInformationRepositoryPeer) {
+    public RepositoryInjection(BorrowerRepositoryPeer borrowerRepositoryPeer, BookRepositoryPeer bookRepositoryPeer, BookInformationRepositoryPeer bookInformationRepositoryPeer, CheckOutRecordRepositoryPeer checkOutRecordRepositoryPeer) {
         this.borrowerRepositoryPeer = borrowerRepositoryPeer;
         this.bookRepositoryPeer = bookRepositoryPeer;
         this.bookInformationRepositoryPeer = bookInformationRepositoryPeer;
+        this.checkOutRecordRepositoryPeer = checkOutRecordRepositoryPeer;
     }
 
     @Bean
@@ -32,5 +34,10 @@ public class RepositoryInjection {
     @Bean
     public BookInformationRepository bookInformationRepository() {
         return new BookInformationRepository(bookInformationRepositoryPeer);
+    }
+
+    @Bean
+    public CheckOutRecordRepository checkOutRecordRepository() {
+        return new CheckOutRecordRepository(checkOutRecordRepositoryPeer);
     }
 }

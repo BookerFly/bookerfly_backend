@@ -2,6 +2,7 @@ package ntut.edu.tw.bookerfly;
 
 import ntut.edu.tw.bookerfly.config.RepositoryInjection;
 import ntut.edu.tw.bookerfly.entity.collection.Collection;
+import ntut.edu.tw.bookerfly.entity.record.RecordManager;
 import ntut.edu.tw.bookerfly.respository.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,9 @@ import java.util.UUID;
 @AutoConfigureAfter({RepositoryInjection.class})
 @SpringBootTest
 public class AbstractSpringJpaTest {
-    public Collection collection;
     public String ISBN;
+    public Collection collection;
+    public RecordManager recordManager;
 
     @Autowired
     private BookInformationRepositoryPeer bookInformationRepositoryPeer;
@@ -24,17 +26,23 @@ public class AbstractSpringJpaTest {
     @Autowired
     private BorrowerRepositoryPeer borrowerRepositoryPeer;
 
+    @Autowired
+    private CheckOutRecordRepositoryPeer checkOutRecordRepositoryPeer;
+
     private BookInformationRepository bookInformationRepository;
     private BookRepository bookRepository;
     private BorrowerRepository borrowerRepository;
+    private CheckOutRecordRepository checkOutRecordRepository;
 
     @BeforeEach
     void setUp() {
         bookInformationRepository = new BookInformationRepository(bookInformationRepositoryPeer);
         bookRepository = new BookRepository(bookRepositoryPeer);
         borrowerRepository = new BorrowerRepository(borrowerRepositoryPeer);
+        checkOutRecordRepository = new CheckOutRecordRepository(checkOutRecordRepositoryPeer);
 
         ISBN = UUID.randomUUID().toString();
         collection = new Collection(bookInformationRepository, bookRepository);
+        recordManager = new RecordManager(checkOutRecordRepository);
     }
 }

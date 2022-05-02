@@ -2,9 +2,9 @@ package ntut.edu.tw.bookerfly.usecase;
 
 import ntut.edu.tw.bookerfly.AbstractSpringJpaTest;
 import ntut.edu.tw.bookerfly.entity.collection.Book;
+import ntut.edu.tw.bookerfly.entity.collection.BookInformation;
 import ntut.edu.tw.bookerfly.entity.collection.BookStatus;
 import ntut.edu.tw.bookerfly.entity.record.CheckOutRecord;
-import ntut.edu.tw.bookerfly.entity.record.RecordManager;
 import ntut.edu.tw.bookerfly.entity.user.Borrower;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,9 +18,9 @@ public class BorrowBookTest extends AbstractSpringJpaTest {
         collection.createBook("title", "author", ISBN, "image", "type", "Lab1321", 1, 1);
         String userId = UUID.randomUUID().toString();
         Borrower borrower = new Borrower(userId);
-        RecordManager recordManager = new RecordManager();
-        String bookInfoId = collection.getAllBookInformations().get(0).getBookInfoId();
-        List<Book> bookList = collection.selectBook(bookInfoId);
+        BookInformation bookInformation = collection.getAllBookInformations().stream().filter(x -> x.getISBN().equals(ISBN)).findFirst().get();
+        List<Book> bookList = collection.selectBook(bookInformation.getBookInfoId());
+        int originalCount = recordManager.getCheckOutRecordList().size();
 
         assertTrue(borrower.hasBorrowQualification());
         Book book = bookList.get(0);
@@ -28,12 +28,14 @@ public class BorrowBookTest extends AbstractSpringJpaTest {
         recordManager.createCheckOutRecord(book.getBookId(), userId);
         borrower.increaseLoanItemCount();
 
+        int currentCount = recordManager.getCheckOutRecordList().size();
         assertEquals(BookStatus.CHECKED_OUT, book.getBookStatus());
         List<CheckOutRecord> checkOutRecordList = recordManager.getCheckOutRecordList();
-        assertEquals(1, checkOutRecordList.size());
-        assertEquals(book.getBookId(), checkOutRecordList.get(0).getBookId());
-        assertEquals(BookStatus.CHECKED_OUT, checkOutRecordList.get(0).getBookStatus());
-        assertEquals(userId, checkOutRecordList.get(0).getUserId());
+        assertEquals(1, currentCount - originalCount);
+        CheckOutRecord checkOutRecord = checkOutRecordList.get(currentCount - 1);
+        assertEquals(book.getBookId(), checkOutRecord.getBookId());
+        assertEquals(BookStatus.CHECKED_OUT, checkOutRecord.getBookStatus());
+        assertEquals(userId, checkOutRecord.getUserId());
         assertTrue(borrower.hasBorrowQualification());
     }
 
@@ -53,9 +55,8 @@ public class BorrowBookTest extends AbstractSpringJpaTest {
     public void borrow_a_checked_out_book() {
         collection.createBook("title", "author", ISBN, "image", "type", "Lab1321", 1, 1);
         String userId = UUID.randomUUID().toString();
-        RecordManager recordManager = new RecordManager();
-        String bookInfoId = collection.getAllBookInformations().get(0).getBookInfoId();
-        List<Book> bookList = collection.selectBook(bookInfoId);
+        BookInformation bookInformation = collection.getAllBookInformations().stream().filter(x -> x.getISBN().equals(ISBN)).findFirst().get();
+        List<Book> bookList = collection.selectBook(bookInformation.getBookInfoId());
         Book book = bookList.get(0);
         collection.borrowBook(book.getBookId());
         recordManager.createCheckOutRecord(book.getBookId(), userId);

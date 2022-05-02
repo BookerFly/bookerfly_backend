@@ -2,7 +2,6 @@ package ntut.edu.tw.bookerfly.entity.collection;
 
 import ntut.edu.tw.bookerfly.respository.BookInformationRepository;
 import ntut.edu.tw.bookerfly.respository.BookRepository;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,15 +18,6 @@ public class Collection {
         this.bookRepository = bookRepository;
         bookInfos = bookInformationRepository.findAll();
         books = bookRepository.findAll();
-    }
-
-    public Collection() {
-        bookInfos = new ArrayList<>();
-        books = new ArrayList<>();
-        bookInfos.add(new BookInformation("OOAD", "wk", "ISBN", "image", "book"));
-        System.out.println("BookInfoId: " + bookInfos.get(0).getBookInfoId());
-        books.add(new Book(bookInfos.get(0).getBookInfoId(), BookStatus.AVAILABLE, "lab1321", 1));
-        System.out.println("BookId: " + books.get(0).getBookId());
     }
 
     public void createBook(String title, String author, String ISBN, String image, String type, String bookshelfPosition, int bookshelfNumber, int count) {
@@ -68,6 +58,7 @@ public class Collection {
             throw new RuntimeException("The book is already checked out.");
 
         book.setBookStatus(BookStatus.CHECKED_OUT);
+        bookRepository.save(book);
     }
 
     public Optional<BookInformation> getBookInformationById(String bookInfoId) {
