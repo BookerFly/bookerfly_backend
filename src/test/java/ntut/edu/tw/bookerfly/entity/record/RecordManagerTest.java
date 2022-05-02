@@ -19,7 +19,7 @@ public class RecordManagerTest extends AbstractSpringJpaTest {
         String userId = UUID.randomUUID().toString();
         int originalCount = recordManager.getCheckOutRecordList().size();
 
-        recordManager.createCheckOutRecord(book.getBookId(), userId);
+        recordManager.createCheckOutRecord(bookInfo.getTitle(), book.getBookId(), userId);
 
         int currentCount = recordManager.getCheckOutRecordList().size();
         List<CheckOutRecord> checkOutRecordList = recordManager.getCheckOutRecordList();

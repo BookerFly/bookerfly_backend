@@ -25,7 +25,7 @@ public class BorrowBookTest extends AbstractSpringJpaTest {
         assertTrue(borrower.hasBorrowQualification());
         Book book = bookList.get(0);
         collection.borrowBook(book.getBookId());
-        recordManager.createCheckOutRecord(book.getBookId(), userId);
+        recordManager.createCheckOutRecord(bookInformation.getTitle(), book.getBookId(), userId);
         borrower.increaseLoanItemCount();
 
         int currentCount = recordManager.getCheckOutRecordList().size();
@@ -59,7 +59,7 @@ public class BorrowBookTest extends AbstractSpringJpaTest {
         List<Book> bookList = collection.selectBook(bookInformation.getBookInfoId());
         Book book = bookList.get(0);
         collection.borrowBook(book.getBookId());
-        recordManager.createCheckOutRecord(book.getBookId(), userId);
+        recordManager.createCheckOutRecord(bookInformation.getTitle(), book.getBookId(), userId);
 
         RuntimeException exception = Assertions.assertThrows(RuntimeException.class, () -> {
             collection.borrowBook(book.getBookId());

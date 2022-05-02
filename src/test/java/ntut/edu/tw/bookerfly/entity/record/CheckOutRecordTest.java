@@ -17,8 +17,9 @@ public class CheckOutRecordTest {
         String userId = UUID.randomUUID().toString();
         Instant timestamp = Instant.now();
 
-        CheckOutRecord checkOutRecord = new CheckOutRecord(book.getBookId(), userId, book.getBookStatus(), timestamp);
+        CheckOutRecord checkOutRecord = new CheckOutRecord(bookInfo.getTitle(), book.getBookId(), userId, book.getBookStatus(), timestamp);
 
+        assertEquals(bookInfo.getTitle(), checkOutRecord.getBookTitle());
         assertEquals(book.getBookId(), checkOutRecord.getBookId());
         assertEquals(userId, checkOutRecord.getUserId());
         assertEquals(BookStatus.CHECKED_OUT, checkOutRecord.getBookStatus());

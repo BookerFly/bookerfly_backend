@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BookInformationTest {
     @Test
     public void create_a_book_information() {
-        BookInformation bookInfo = new BookInformation("title", "author", "isbn", "image", "type");
+        BookInformation bookInfo = new BookInformation("SE", "author", "isbn", "image", "type");
 
         assertNotNull(bookInfo.getBookInfoId());
-        assertEquals("title", bookInfo.getTitle());
+        assertEquals("SE", bookInfo.getTitle());
         assertEquals("author", bookInfo.getAuthor());
         assertEquals("isbn", bookInfo.getISBN());
         assertEquals("image", bookInfo.getImage());

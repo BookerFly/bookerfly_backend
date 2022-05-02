@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BookTest {
     @Test
     public void create_a_book() {
-        BookInformation bookInfo = new BookInformation("title", "author", "isbn", "image", "type");
+        BookInformation bookInfo = new BookInformation("OOAD", "author", "isbn", "image", "type");
 
         Book book = new Book(bookInfo.getBookInfoId(), BookStatus.AVAILABLE, "Lab1321", 1);
 

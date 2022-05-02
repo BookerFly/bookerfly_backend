@@ -12,16 +12,12 @@ public class CollectionTest extends AbstractSpringJpaTest {
 
     @Test
     public void create_a_book_in_collection() {
-        int originalCount = collection.getCount();
+        collection.createBook("DDD", "author", ISBN, "image", "type", "Lab1321", 1, 1);
 
-        collection.createBook("title", "author", ISBN, "image", "type", "Lab1321", 1, 1);
-
-        int currentCount = collection.getCount();
-        assertEquals(1, currentCount - originalCount);
         BookInformation bookInformation = collection.getAllBookInformations().stream().filter(x -> x.getISBN().equals(ISBN)).findFirst().get();
         Optional<BookInformation> bookInfo = collection.getBookInformationById(bookInformation.getBookInfoId());
         assertTrue(bookInfo.isPresent());
-        assertEquals("title", bookInfo.get().getTitle());
+        assertEquals("DDD", bookInfo.get().getTitle());
         assertEquals("author", bookInfo.get().getAuthor());
         assertEquals(ISBN, bookInfo.get().getISBN());
         assertEquals("image", bookInfo.get().getImage());

@@ -1,6 +1,5 @@
 package ntut.edu.tw.bookerfly.handler;
 
-import ntut.edu.tw.bookerfly.entity.collection.Book;
 import ntut.edu.tw.bookerfly.entity.collection.Collection;
 import ntut.edu.tw.bookerfly.entity.record.RecordManager;
 import ntut.edu.tw.bookerfly.entity.user.Borrower;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 public class BorrowBookHandler {
@@ -35,12 +33,13 @@ public class BorrowBookHandler {
 
     @PostMapping(path = "bookerfly/collection/books/{bookId}/borrow", produces = "application/json")
     public ResponseEntity<String> borrowBook(@PathVariable("bookId") String bookId,
+                             @RequestParam("bookTitle") String bookTitle,
                              @RequestParam("userId") String userId) {
         try {
             Borrower borrower = borrowerRepository.findById(userId).get();
             if (borrower.hasBorrowQualification()) {
                 collection.borrowBook(bookId);
-                recordManager.createCheckOutRecord(bookId, userId);
+                recordManager.createCheckOutRecord(bookTitle, bookId, userId);
                 borrower.increaseLoanItemCount();
                 borrowerRepository.save(borrower);
                 return new ResponseEntity<>("Success to borrow book.", HttpStatus.OK);

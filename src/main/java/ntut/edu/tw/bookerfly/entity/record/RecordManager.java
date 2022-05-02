@@ -14,8 +14,8 @@ public class RecordManager {
         checkOutRecords = checkOutRecordRepository.findAll();
     }
 
-    public void createCheckOutRecord(String bookId, String userId) {
-        CheckOutRecord checkOutRecord = new CheckOutRecord(bookId, userId, BookStatus.CHECKED_OUT, Instant.now());
+    public void createCheckOutRecord(String bookTitle, String bookId, String userId) {
+        CheckOutRecord checkOutRecord = new CheckOutRecord(bookTitle, bookId, userId, BookStatus.CHECKED_OUT, Instant.now());
         checkOutRecords.add(checkOutRecord);
         checkOutRecordRepository.save(checkOutRecord);
     }

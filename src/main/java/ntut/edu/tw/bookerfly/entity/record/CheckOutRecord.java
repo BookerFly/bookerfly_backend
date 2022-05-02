@@ -15,6 +15,9 @@ public class CheckOutRecord {
     @Column(name = "check_out_record_id")
     private String checkOutRecordId;
 
+    @Column(name = "book_title")
+    private String bookTitle;
+
     @Column(name = "book_id")
     private String bookId;
 
@@ -29,7 +32,8 @@ public class CheckOutRecord {
 
     public CheckOutRecord() {}
 
-    public CheckOutRecord(String bookId, String userId, BookStatus bookStatus, Instant timestamp) {
+    public CheckOutRecord(String bookTitle, String bookId, String userId, BookStatus bookStatus, Instant timestamp) {
+        this.bookTitle = bookTitle;
         this.bookId = bookId;
         this.userId = userId;
         this.bookStatus = bookStatus;
@@ -43,6 +47,14 @@ public class CheckOutRecord {
 
     public void setCheckOutRecordId(String checkOutRecordId) {
         this.checkOutRecordId = checkOutRecordId;
+    }
+
+    public String getBookTitle() {
+        return bookTitle;
+    }
+
+    public void setBookTitle(String bookTitle) {
+        this.bookTitle = bookTitle;
     }
 
     public String getBookId() {
