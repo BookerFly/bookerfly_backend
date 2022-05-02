@@ -50,22 +50,25 @@ public class CollectionTest extends AbstractSpringJpaTest {
     }
 
     @Test
-    public void create_three_books_in_collection() {
+    public void create_three_books_with_same_book_information_in_collection() {
         int originalCount = collection.getCount();
 
         collection.createBook("title", "author", ISBN, "image", "type", "Lab1321", 1, 3);
 
         int currentCount = collection.getCount();
         assertEquals(3, currentCount - originalCount);
-        assertEquals(collection.getAllBooks().get(0).getBookInfoId(), collection.getAllBooks().get(1).getBookInfoId());
+        BookInformation bookInformation = collection.getAllBookInformations().stream().filter(x -> x.getISBN().equals(ISBN)).findFirst().get();
+        List<Book> books = collection.selectBook(bookInformation.getBookInfoId());
+        assertEquals(books.get(0).getBookInfoId(), books.get(1).getBookInfoId());
     }
 
     @Test
     public void select_three_books_in_collection() {
         collection.createBook("title", "author", ISBN, "image", "type", "Lab1321", 1, 3);
         collection.createBook("title2", "author", ISBN, "image", "type", "Lab1321", 1, 2);
+        BookInformation bookInformation = collection.getAllBookInformations().stream().filter(x -> x.getISBN().equals(ISBN)).findFirst().get();
 
-        List<Book> searchResult = collection.selectBook(collection.getAllBookInformations().get(0).getBookInfoId());
+        List<Book> searchResult = collection.selectBook(bookInformation.getBookInfoId());
 
         assertEquals(3, searchResult.size());
     }
