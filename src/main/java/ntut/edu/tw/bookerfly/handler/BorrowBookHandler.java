@@ -57,7 +57,7 @@ public class BorrowBookHandler {
                 borrowerRepository.save(borrower);
                 return new ResponseEntity<>("Success to borrow book.", HttpStatus.OK);
             }
-            return new ResponseEntity<>("Cannot borrow book since without qualification.", HttpStatus.OK);
+            return new ResponseEntity<>("Cannot borrow book since without qualification.", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to borrow book, caused by " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
