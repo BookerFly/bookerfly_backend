@@ -10,8 +10,11 @@ public class Book {
     @Column(name = "book_id")
     private String bookId;
 
-    @Column(name = "book_info_id")
-    private String bookInfoId;
+    @ManyToOne
+    @JoinTable(name = "book_info",
+            joinColumns = {@JoinColumn(name = "book_id")},
+            inverseJoinColumns = {@JoinColumn(name = "book_info_id")})
+    private BookInformation bookInformation;
 
     @Column(name = "book_status")
     @Enumerated(EnumType.STRING)
@@ -26,8 +29,8 @@ public class Book {
     public Book() {
     }
 
-    public Book(String bookInfoId, BookStatus bookStatus, String bookshelfPosition, int bookshelfNumber) {
-        this.bookInfoId = bookInfoId;
+    public Book(BookInformation bookInformation, BookStatus bookStatus, String bookshelfPosition, int bookshelfNumber) {
+        this.bookInformation = bookInformation;
         this.bookStatus = bookStatus;
         this.bookshelfPosition = bookshelfPosition;
         this.bookshelfNumber = bookshelfNumber;
@@ -35,7 +38,15 @@ public class Book {
     }
 
     public boolean hasSameBookInfo(String bookInfoId) {
-        return this.bookInfoId.equals(bookInfoId);
+        return bookInformation.getBookInfoId().equals(bookInfoId);
+    }
+
+    public boolean hasSameBookInfo(String title, String author, String isbn, String image, String type) {
+        return bookInformation.getTitle().equals(title) &&
+                bookInformation.getAuthor().equals(author) &&
+                bookInformation.getISBN().equals(isbn) &&
+                bookInformation.getImage().equals(image) &&
+                bookInformation.getType().equals(type);
     }
 
     public String getBookId() {
@@ -46,12 +57,24 @@ public class Book {
         this.bookId = bookId;
     }
 
-    public String getBookInfoId() {
-        return bookInfoId;
+    public String getTitle() {
+        return bookInformation.getTitle();
     }
 
-    public void setBookInfoId(String bookInfoId) {
-        this.bookInfoId = bookInfoId;
+    public String getAuthor() {
+        return bookInformation.getAuthor();
+    }
+
+    public String getISBN() {
+        return bookInformation.getISBN();
+    }
+
+    public String getImage() {
+        return bookInformation.getImage();
+    }
+
+    public String getType() {
+        return bookInformation.getType();
     }
 
     public BookStatus getBookStatus() {

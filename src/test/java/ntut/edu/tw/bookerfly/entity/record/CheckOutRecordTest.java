@@ -12,7 +12,7 @@ public class CheckOutRecordTest {
     @Test
     public void create_a_check_out_record() {
         BookInformation bookInfo = new BookInformation("title", "author", "isbn", "image", "type");
-        Book book = new Book(bookInfo.getBookInfoId(), BookStatus.AVAILABLE, "Lab1321", 1);
+        Book book = new Book(bookInfo, BookStatus.AVAILABLE, "Lab1321", 1);
         book.setBookStatus(BookStatus.CHECKED_OUT);
         String userId = UUID.randomUUID().toString();
         Instant timestamp = Instant.now();

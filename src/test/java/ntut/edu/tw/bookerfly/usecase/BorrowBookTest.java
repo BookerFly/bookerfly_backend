@@ -71,12 +71,10 @@ public class BorrowBookTest extends AbstractSpringJpaTest {
     @Test
     public void select_books() {
         collection.createBook("title", "author", ISBN, "image", "type", "Lab1321", 1, 2);
-        String bookInfoId = collection.getAllBookInformations().stream().filter(x -> x.getISBN().equals(ISBN)).findFirst().get().getBookInfoId();
 
-        List<Book> bookList = collection.selectBook(bookInfoId);
+        List<Book> books = collection.selectBook("title", "author", ISBN, "image", "type");
 
-        assertEquals(2, bookList.size());
-        assertEquals(bookInfoId, bookList.get(0).getBookInfoId());
-        assertEquals(bookInfoId, bookList.get(1).getBookInfoId());
+        assertEquals(2, books.size());
+        assertTrue(books.get(0).hasSameBookInfo(books.get(1).getTitle(), books.get(1).getAuthor(), books.get(1).getISBN(), books.get(1).getImage(), books.get(1).getType()));
     }
 }

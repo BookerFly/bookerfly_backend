@@ -21,20 +21,17 @@ public class Collection {
     }
 
     public void createBook(String title, String author, String ISBN, String image, String type, String bookshelfPosition, int bookshelfNumber, int count) {
-        Optional<BookInformation> bookInfo = getBookInformation(title, author, ISBN, image, type);
-        String bookInfoId;
-
-        if (bookInfo.isPresent()) {
-            bookInfoId = bookInfo.get().getBookInfoId();
-        } else {
+        if (getBookInformation(title, author, ISBN, image, type).isEmpty()) {
             BookInformation bookInformation = new BookInformation(title, author, ISBN, image, type);
             bookInformationRepository.save(bookInformation);
             bookInfos.add(bookInformation);
-            bookInfoId = bookInformation.getBookInfoId();
         }
 
         for (int i = 0; i < count; i++) {
-            Book book = new Book(bookInfoId, BookStatus.AVAILABLE, bookshelfPosition, bookshelfNumber);
+            Book book = new Book(getBookInformation(title, author, ISBN, image, type).get(),
+                                    BookStatus.AVAILABLE,
+                                    bookshelfPosition,
+                                    bookshelfNumber);
             bookRepository.save(book);
             books.add(book);
         }
@@ -45,6 +42,17 @@ public class Collection {
 
         for (Book book : books) {
             if (book.hasSameBookInfo(bookInfoId))
+                searchResult.add(book);
+        }
+
+        return searchResult;
+    }
+
+    public List<Book> selectBook(String title, String author, String isbn, String image, String type) {
+        List<Book> searchResult = new ArrayList<>();
+
+        for (Book book : books) {
+            if (book.hasSameBookInfo(title, author, isbn, image, type))
                 searchResult.add(book);
         }
 
