@@ -1,10 +1,7 @@
 package ntut.edu.tw.bookerfly.entity.record;
 
 import ntut.edu.tw.bookerfly.entity.collection.BookStatus;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -25,19 +22,23 @@ public class CheckOutRecord {
     private String userId;
 
     @Column(name = "book_status")
+    @Enumerated(EnumType.STRING)
     private BookStatus bookStatus;
 
-    @Column(name = "timestamp")
-    private Instant timestamp;
+    @Column(name = "borrow_timestamp")
+    private Instant borrowTimestamp;
+
+    @Column(name = "return_timestamp")
+    private Instant returnTimestamp;
 
     public CheckOutRecord() {}
 
-    public CheckOutRecord(String bookTitle, String bookId, String userId, BookStatus bookStatus, Instant timestamp) {
+    public CheckOutRecord(String bookTitle, String bookId, String userId, BookStatus bookStatus, Instant borrowTimestamp) {
         this.bookTitle = bookTitle;
         this.bookId = bookId;
         this.userId = userId;
         this.bookStatus = bookStatus;
-        this.timestamp = timestamp;
+        this.borrowTimestamp = borrowTimestamp;
         checkOutRecordId = UUID.randomUUID().toString();
     }
 
@@ -81,11 +82,24 @@ public class CheckOutRecord {
         this.bookStatus = bookStatus;
     }
 
-    public Instant getTimestamp() {
-        return timestamp;
+    public Instant getBorrowTimestamp() {
+        return borrowTimestamp;
     }
 
-    public void setTimestamp(Instant timestamp) {
-        this.timestamp = timestamp;
+    public void setBorrowTimestamp(Instant timestamp) {
+        this.borrowTimestamp = timestamp;
+    }
+
+    public Instant getReturnTimestamp() {
+        return returnTimestamp;
+    }
+
+    public void setReturnTimestamp(Instant returnTimestamp) {
+        this.returnTimestamp = returnTimestamp;
+    }
+
+    public void updateBookStatus(BookStatus bookStatus, Instant returnTimestamp) {
+        this.bookStatus = bookStatus;
+        this.returnTimestamp = returnTimestamp;
     }
 }

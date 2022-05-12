@@ -41,11 +41,18 @@ public class BorrowBookTest extends AbstractSpringJpaTest {
 
     @Test
     public void cannot_borrow_book() {
-        collection.createBook("title", "author", ISBN, "image", "type", "Lab1321", 1, 1);
+        collection.createBook("title", "author", ISBN, "image", "type", "Lab1321", 1, 3);
         String userId = UUID.randomUUID().toString();
         Borrower borrower = new Borrower(userId);
+        List<Book> bookList = collection.selectBook("title", "author", ISBN, "image", "type");
+        collection.borrowBook(bookList.get(0).getBookId());
+        recordManager.createCheckOutRecord("title", bookList.get(0).getBookId(), userId);
         borrower.increaseLoanItemCount();
+        collection.borrowBook(bookList.get(1).getBookId());
+        recordManager.createCheckOutRecord("title", bookList.get(1).getBookId(), userId);
         borrower.increaseLoanItemCount();
+        collection.borrowBook(bookList.get(2).getBookId());
+        recordManager.createCheckOutRecord("title", bookList.get(2).getBookId(), userId);
         borrower.increaseLoanItemCount();
 
         assertFalse(borrower.hasBorrowQualification());

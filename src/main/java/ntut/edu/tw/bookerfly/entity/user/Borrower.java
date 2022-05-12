@@ -31,6 +31,10 @@ public class Borrower {
         loanItemCount++;
     }
 
+    public void decreaseLoanItemCount() {
+        loanItemCount--;
+    }
+
     public String getUserId() {
         return userId;
     }

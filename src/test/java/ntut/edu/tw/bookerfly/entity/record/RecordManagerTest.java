@@ -25,4 +25,19 @@ public class RecordManagerTest extends AbstractSpringJpaTest {
         assertEquals(BookStatus.CHECKED_OUT, checkOutRecord.getBookStatus());
         assertEquals(userId, checkOutRecord.getUserId());
     }
+
+    @Test
+    public void update_check_out_record() {
+        BookInformation bookInfo = new BookInformation("title", "author", "isbn", "image", "type");
+        Book book = new Book(bookInfo, BookStatus.AVAILABLE, "Lab1321", 1);
+        book.setBookStatus(BookStatus.CHECKED_OUT);
+        String userId = UUID.randomUUID().toString();
+        recordManager.createCheckOutRecord(bookInfo.getTitle(), book.getBookId(), userId);
+
+        recordManager.updateCheckOutRecord(book.getBookId(), userId, BookStatus.AVAILABLE);
+
+        List<CheckOutRecord> checkOutRecordList = recordManager.getCheckOutRecordList();
+        CheckOutRecord checkOutRecord = checkOutRecordList.get(checkOutRecordList.size() - 1);
+        assertEquals(BookStatus.AVAILABLE, checkOutRecord.getBookStatus());
+    }
 }

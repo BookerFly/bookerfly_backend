@@ -16,6 +16,7 @@ public class AbstractSpringJpaTest {
     public String ISBN;
     public Collection collection;
     public RecordManager recordManager;
+    public BorrowerRepository borrowerRepository;
 
     @Autowired
     private BookInformationRepositoryPeer bookInformationRepositoryPeer;
@@ -31,7 +32,6 @@ public class AbstractSpringJpaTest {
 
     private BookInformationRepository bookInformationRepository;
     private BookRepository bookRepository;
-    private BorrowerRepository borrowerRepository;
     private CheckOutRecordRepository checkOutRecordRepository;
 
     @BeforeEach

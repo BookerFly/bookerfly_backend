@@ -84,4 +84,17 @@ public class CollectionTest extends AbstractSpringJpaTest {
 
         assertEquals("The book is already checked out.", exception.getMessage());
     }
+
+    @Test
+    public void return_book() {
+        String ISBN2 = UUID.randomUUID().toString();
+        collection.createBook("title", "author", ISBN, "image", "type", "Lab1321", 1, 3);
+        collection.createBook("design patterns", "gof", ISBN2, "", "Book", "Lab1321", 1, 2);
+        Book book = collection.selectBook("design patterns", "gof", ISBN2, "", "Book").get(0);
+        collection.borrowBook(book.getBookId());
+
+        collection.returnBook(book.getBookId());
+
+        assertEquals(BookStatus.PROCESSING, book.getBookStatus());
+    }
 }

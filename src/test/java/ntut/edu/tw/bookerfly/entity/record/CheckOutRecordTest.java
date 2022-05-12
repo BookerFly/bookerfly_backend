@@ -23,6 +23,22 @@ public class CheckOutRecordTest {
         assertEquals(book.getBookId(), checkOutRecord.getBookId());
         assertEquals(userId, checkOutRecord.getUserId());
         assertEquals(BookStatus.CHECKED_OUT, checkOutRecord.getBookStatus());
-        assertEquals(timestamp, checkOutRecord.getTimestamp());
+        assertEquals(timestamp, checkOutRecord.getBorrowTimestamp());
+    }
+
+    @Test
+    public void update_book_status() {
+        BookInformation bookInfo = new BookInformation("title", "author", "isbn", "image", "type");
+        Book book = new Book(bookInfo, BookStatus.AVAILABLE, "Lab1321", 1);
+        book.setBookStatus(BookStatus.CHECKED_OUT);
+        String userId = UUID.randomUUID().toString();
+        Instant timestamp = Instant.now();
+        CheckOutRecord checkOutRecord = new CheckOutRecord(bookInfo.getTitle(), book.getBookId(), userId, book.getBookStatus(), timestamp);
+        Instant returnTimestamp = Instant.now();
+
+        checkOutRecord.updateBookStatus(BookStatus.AVAILABLE, returnTimestamp);
+
+        assertEquals(BookStatus.AVAILABLE, checkOutRecord.getBookStatus());
+        assertEquals(returnTimestamp, checkOutRecord.getReturnTimestamp());
     }
 }

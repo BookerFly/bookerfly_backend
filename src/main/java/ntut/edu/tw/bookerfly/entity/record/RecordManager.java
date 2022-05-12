@@ -20,7 +20,18 @@ public class RecordManager {
         checkOutRecordRepository.save(checkOutRecord);
     }
 
+    public void updateCheckOutRecord(String bookId, String userId, BookStatus bookStatus) {
+        List<CheckOutRecord> checkOutRecords = getCheckOutRecord(bookId, userId);
+        CheckOutRecord checkOutRecord = checkOutRecords.get(checkOutRecords.size() - 1);
+        checkOutRecord.updateBookStatus(bookStatus, Instant.now());
+        checkOutRecordRepository.save(checkOutRecord);
+    }
+
     public List<CheckOutRecord> getCheckOutRecordList() {
         return checkOutRecords;
+    }
+
+    private List<CheckOutRecord> getCheckOutRecord(String bookId, String userId) {
+        return checkOutRecords.stream().filter(x -> x.getBookId().equals(bookId) && x.getUserId().equals(userId)).toList();
     }
 }

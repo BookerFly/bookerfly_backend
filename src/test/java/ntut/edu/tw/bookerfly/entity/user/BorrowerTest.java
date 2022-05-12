@@ -33,4 +33,17 @@ public class BorrowerTest {
 
         assertFalse(borrower.hasBorrowQualification());
     }
+
+    @Test
+    public void borrower_has_borrow_qualification_after_return_a_book() {
+        String userId = UUID.randomUUID().toString();
+        Borrower borrower = new Borrower(userId);
+        borrower.increaseLoanItemCount();
+        borrower.increaseLoanItemCount();
+        borrower.increaseLoanItemCount();
+
+        borrower.decreaseLoanItemCount();
+
+        assertTrue(borrower.hasBorrowQualification());
+    }
 }
