@@ -1,5 +1,6 @@
 package ntut.edu.tw.bookerfly.handler;
 
+import ntut.edu.tw.bookerfly.entity.collection.BookStatus;
 import ntut.edu.tw.bookerfly.entity.record.CheckOutRecord;
 import ntut.edu.tw.bookerfly.entity.record.RecordManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class GetAllCheckOutRecordController {
+public class GetCheckOutRecordController {
     private RecordManager recordManager;
 
     @Autowired
-    public GetAllCheckOutRecordController(RecordManager recordManager) {
+    public GetCheckOutRecordController(RecordManager recordManager) {
         this.recordManager = recordManager;
     }
 
@@ -33,6 +34,16 @@ public class GetAllCheckOutRecordController {
             return new ResponseEntity<>(checkOutRecordList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to get the user's check out records, caused by " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(path = "bookerfly/record/check-out-record/processing", produces = "application/json")
+    public ResponseEntity<Object> getProcessingCheckoutRecord() {
+        try {
+            List<CheckOutRecord> checkOutRecordList = recordManager.getCheckOutRecordList().stream().filter(x -> x.getBookStatus().equals(BookStatus.PROCESSING)).toList();
+            return new ResponseEntity<>(checkOutRecordList, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to get processing check out records, caused by " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

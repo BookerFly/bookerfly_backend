@@ -22,6 +22,26 @@ public class BookTest {
     }
 
     @Test
+    public void set_bookshelf_position() {
+        BookInformation bookInfo = new BookInformation("title", "author", "isbn", "image", "type");
+        Book book = new Book(bookInfo, BookStatus.AVAILABLE, "Lab1321", 1);
+
+        book.setBookshelfPosition("Lab1424");
+
+        assertEquals("Lab1424", book.getBookshelfPosition());
+    }
+
+    @Test
+    public void set_bookshelf_number() {
+        BookInformation bookInfo = new BookInformation("title", "author", "isbn", "image", "type");
+        Book book = new Book(bookInfo, BookStatus.AVAILABLE, "Lab1321", 1);
+
+        book.setBookshelfNumber(2);
+
+        assertEquals(2, book.getBookshelfNumber());
+    }
+
+    @Test
     public void set_book_status() {
         BookInformation bookInfo = new BookInformation("title", "author", "isbn", "image", "type");
         Book book = new Book(bookInfo, BookStatus.AVAILABLE, "Lab1321", 1);

@@ -22,9 +22,11 @@ public class RecordManager {
 
     public void updateCheckOutRecord(String bookId, String userId, BookStatus bookStatus) {
         List<CheckOutRecord> checkOutRecords = getCheckOutRecord(bookId, userId);
-        CheckOutRecord checkOutRecord = checkOutRecords.get(checkOutRecords.size() - 1);
-        checkOutRecord.updateBookStatus(bookStatus, Instant.now());
-        checkOutRecordRepository.save(checkOutRecord);
+        if(checkOutRecords.size() != 0) {
+            CheckOutRecord checkOutRecord = checkOutRecords.get(checkOutRecords.size() - 1);
+            checkOutRecord.updateBookStatus(bookStatus, Instant.now());
+            checkOutRecordRepository.save(checkOutRecord);
+        }
     }
 
     public List<CheckOutRecord> getCheckOutRecordList() {

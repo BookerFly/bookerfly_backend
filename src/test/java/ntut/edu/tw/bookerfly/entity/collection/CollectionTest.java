@@ -97,4 +97,16 @@ public class CollectionTest extends AbstractSpringJpaTest {
 
         assertEquals(BookStatus.PROCESSING, book.getBookStatus());
     }
+
+    @Test
+    public void edit_book() {
+        collection.createBook("title", "author", ISBN, "image", "type", "Lab1321", 1, 3);
+        Book book = collection.selectBook("title", "author", ISBN, "image", "type").get(0);
+
+        collection.editBook(book.getBookId(), "Lab1424", 2, BookStatus.PROCESSING);
+
+        assertEquals("Lab1424", book.getBookshelfPosition());
+        assertEquals(2, book.getBookshelfNumber());
+        assertEquals(BookStatus.PROCESSING, book.getBookStatus());
+    }
 }

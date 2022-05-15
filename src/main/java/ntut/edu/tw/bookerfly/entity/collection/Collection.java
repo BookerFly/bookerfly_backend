@@ -76,6 +76,22 @@ public class Collection {
         bookRepository.save(book);
     }
 
+    public void editBook(String bookId, String bookshelfPosition, int bookshelfNumber, BookStatus bookStatus) {
+        Book book = books.stream().filter(x -> x.getBookId().equals(bookId)).findFirst().get();
+
+        book.setBookshelfPosition(bookshelfPosition);
+        book.setBookshelfNumber(bookshelfNumber);
+        book.setBookStatus(bookStatus);
+        bookRepository.save(book);
+    }
+
+    public void editBook(String bookId, BookStatus bookStatus) {
+        Book book = books.stream().filter(x -> x.getBookId().equals(bookId)).findFirst().get();
+
+        book.setBookStatus(bookStatus);
+        bookRepository.save(book);
+    }
+
     public void confirmBookReturned(String bookId) {
         Book book = books.stream().filter(x -> x.getBookId().equals(bookId)).findFirst().get();
 
