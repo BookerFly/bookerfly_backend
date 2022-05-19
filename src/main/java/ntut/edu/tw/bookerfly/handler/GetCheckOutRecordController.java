@@ -37,10 +37,10 @@ public class GetCheckOutRecordController {
         }
     }
 
-    @GetMapping(path = "bookerfly/record/check-out-record/processing", produces = "application/json")
-    public ResponseEntity<Object> getProcessingCheckoutRecord() {
+    @GetMapping(path = "bookerfly/record/check-out-record/manage", produces = "application/json")
+    public ResponseEntity<Object> getTrackingCheckOutRecord() {
         try {
-            List<CheckOutRecord> checkOutRecordList = recordManager.getCheckOutRecordList().stream().filter(x -> x.getBookStatus().equals(BookStatus.PROCESSING)).toList();
+            List<CheckOutRecord> checkOutRecordList = recordManager.getCheckOutRecordList().stream().filter(x -> x.getBookStatus().equals(BookStatus.PROCESSING) || x.getBookStatus().equals(BookStatus.MISSING)).toList();
             return new ResponseEntity<>(checkOutRecordList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to get processing check out records, caused by " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
