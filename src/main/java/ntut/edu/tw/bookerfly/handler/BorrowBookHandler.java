@@ -3,7 +3,7 @@ package ntut.edu.tw.bookerfly.handler;
 import ntut.edu.tw.bookerfly.entity.collection.Collection;
 import ntut.edu.tw.bookerfly.entity.record.RecordManager;
 import ntut.edu.tw.bookerfly.entity.user.Borrower;
-import ntut.edu.tw.bookerfly.respository.BorrowerRepository;
+import ntut.edu.tw.bookerfly.respository.user.BorrowerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

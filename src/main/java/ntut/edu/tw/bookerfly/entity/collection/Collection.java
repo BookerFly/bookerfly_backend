@@ -1,7 +1,7 @@
 package ntut.edu.tw.bookerfly.entity.collection;
 
-import ntut.edu.tw.bookerfly.respository.BookInformationRepository;
-import ntut.edu.tw.bookerfly.respository.BookRepository;
+import ntut.edu.tw.bookerfly.respository.collection.BookInformationRepository;
+import ntut.edu.tw.bookerfly.respository.collection.BookRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package ntut.edu.tw.bookerfly.respository;
+package ntut.edu.tw.bookerfly.respository.record;
 
 import ntut.edu.tw.bookerfly.entity.record.CheckOutRecord;
 import java.util.ArrayList;

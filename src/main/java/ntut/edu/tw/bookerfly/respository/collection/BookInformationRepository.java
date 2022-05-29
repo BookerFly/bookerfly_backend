@@ -1,4 +1,4 @@
-package ntut.edu.tw.bookerfly.respository;
+package ntut.edu.tw.bookerfly.respository.collection;
 
 import ntut.edu.tw.bookerfly.entity.collection.BookInformation;
 import org.springframework.beans.factory.annotation.Autowired;

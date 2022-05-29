@@ -1,4 +1,4 @@
-package ntut.edu.tw.bookerfly.respository;
+package ntut.edu.tw.bookerfly.respository.user;
 
 import ntut.edu.tw.bookerfly.entity.user.Borrower;
 import org.springframework.data.repository.CrudRepository;

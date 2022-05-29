@@ -3,7 +3,16 @@ package ntut.edu.tw.bookerfly;
 import ntut.edu.tw.bookerfly.config.RepositoryInjection;
 import ntut.edu.tw.bookerfly.entity.collection.Collection;
 import ntut.edu.tw.bookerfly.entity.record.RecordManager;
-import ntut.edu.tw.bookerfly.respository.*;
+import ntut.edu.tw.bookerfly.respository.collection.BookInformationRepository;
+import ntut.edu.tw.bookerfly.respository.collection.BookInformationRepositoryPeer;
+import ntut.edu.tw.bookerfly.respository.collection.BookRepository;
+import ntut.edu.tw.bookerfly.respository.collection.BookRepositoryPeer;
+import ntut.edu.tw.bookerfly.respository.record.CheckOutRecordRepository;
+import ntut.edu.tw.bookerfly.respository.record.CheckOutRecordRepositoryPeer;
+import ntut.edu.tw.bookerfly.respository.record.ReservationRecordRepository;
+import ntut.edu.tw.bookerfly.respository.record.ReservationRecordRepositoryPeer;
+import ntut.edu.tw.bookerfly.respository.user.BorrowerRepository;
+import ntut.edu.tw.bookerfly.respository.user.BorrowerRepositoryPeer;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -30,9 +39,13 @@ public class AbstractSpringJpaTest {
     @Autowired
     private CheckOutRecordRepositoryPeer checkOutRecordRepositoryPeer;
 
+    @Autowired
+    private ReservationRecordRepositoryPeer reservationRecordRepositoryPeer;
+
     private BookInformationRepository bookInformationRepository;
     private BookRepository bookRepository;
     private CheckOutRecordRepository checkOutRecordRepository;
+    private ReservationRecordRepository reservationRecordRepository;
 
     @BeforeEach
     void setUp() {
@@ -40,9 +53,10 @@ public class AbstractSpringJpaTest {
         bookRepository = new BookRepository(bookRepositoryPeer);
         borrowerRepository = new BorrowerRepository(borrowerRepositoryPeer);
         checkOutRecordRepository = new CheckOutRecordRepository(checkOutRecordRepositoryPeer);
+        reservationRecordRepository = new ReservationRecordRepository(reservationRecordRepositoryPeer);
 
         ISBN = UUID.randomUUID().toString();
         collection = new Collection(bookInformationRepository, bookRepository);
-        recordManager = new RecordManager(checkOutRecordRepository);
+        recordManager = new RecordManager(checkOutRecordRepository, reservationRecordRepository);
     }
 }
