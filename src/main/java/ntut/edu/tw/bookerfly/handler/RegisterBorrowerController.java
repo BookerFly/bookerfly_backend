@@ -20,7 +20,7 @@ public class RegisterBorrowerController {
         try {
             JSONObject userJson = new JSONObject(userInfo);
             String userId = userJson.getString("userId");
-            borrowerRepository.save(new Borrower(userId));
+            borrowerRepository.save(new Borrower(userId, "Jay", "test@gmail.com"));
             return new ResponseEntity<>("Success to register borrower.", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Failed to register borrower, caused by " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

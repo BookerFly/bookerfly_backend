@@ -99,6 +99,13 @@ public class Collection {
         bookRepository.save(book);
     }
 
+    public void withholdBook(String bookId) {
+        Book book = books.stream().filter(x -> x.getBookId().equals(bookId)).findFirst().get();
+
+        book.setBookStatus(BookStatus.RESERVED);
+        bookRepository.save(book);
+    }
+
     public void lostBook(String bookId) {
         Book book = books.stream().filter(x -> x.getBookId().equals(bookId)).findFirst().get();
 

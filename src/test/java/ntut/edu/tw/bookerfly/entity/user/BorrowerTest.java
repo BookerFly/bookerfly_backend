@@ -9,7 +9,7 @@ public class BorrowerTest {
     @Test
     public void borrower_has_borrow_qualification() {
         String userId = UUID.randomUUID().toString();
-        Borrower borrower = new Borrower(userId);
+        Borrower borrower = new Borrower(userId, "Jay", "test@gmail.com");
 
         assertTrue(borrower.hasBorrowQualification());
     }
@@ -17,7 +17,7 @@ public class BorrowerTest {
     @Test
     public void borrower_has_borrow_qualification_after_borrowing_a_book() {
         String userId = UUID.randomUUID().toString();
-        Borrower borrower = new Borrower(userId);
+        Borrower borrower = new Borrower(userId, "Jay", "test@gmail.com");
         borrower.increaseLoanItemCount();
 
         assertTrue(borrower.hasBorrowQualification());
@@ -26,7 +26,7 @@ public class BorrowerTest {
     @Test
     public void borrower_has_no_borrow_qualification_after_borrowing_three_books() {
         String userId = UUID.randomUUID().toString();
-        Borrower borrower = new Borrower(userId);
+        Borrower borrower = new Borrower(userId, "Jay", "test@gmail.com");
         borrower.increaseLoanItemCount();
         borrower.increaseLoanItemCount();
         borrower.increaseLoanItemCount();
@@ -37,7 +37,7 @@ public class BorrowerTest {
     @Test
     public void borrower_has_borrow_qualification_after_return_a_book() {
         String userId = UUID.randomUUID().toString();
-        Borrower borrower = new Borrower(userId);
+        Borrower borrower = new Borrower(userId, "Jay", "test@gmail.com");
         borrower.increaseLoanItemCount();
         borrower.increaseLoanItemCount();
         borrower.increaseLoanItemCount();

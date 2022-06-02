@@ -12,14 +12,22 @@ public class Borrower {
     @Column(name = "user_id")
     private String userId;
 
+    @Column(name="email")
+    private String email;
+
+    @Column(name="nick_name")
+    private String nickName;
+
     @Column(name = "loan_item_count")
     private int loanItemCount;
 
     public Borrower() {
     }
 
-    public Borrower(String userId) {
+    public Borrower(String userId, String nickName, String email) {
         this.userId = userId;
+        this.nickName = nickName;
+        this.email = email;
         loanItemCount = 0;
     }
 
@@ -41,6 +49,22 @@ public class Borrower {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getLoanItemCount() {

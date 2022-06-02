@@ -17,7 +17,7 @@ public class BorrowBookTest extends AbstractSpringJpaTest {
     public void borrow_a_book() {
         collection.createBook("title", "author", ISBN, "image", "type", "Lab1321", 1, 1);
         String userId = UUID.randomUUID().toString();
-        Borrower borrower = new Borrower(userId);
+        Borrower borrower = new Borrower(userId, "Jay", "test@gmail.com");
         BookInformation bookInformation = collection.getAllBookInformations().stream().filter(x -> x.getISBN().equals(ISBN)).findFirst().get();
         List<Book> bookList = collection.selectBook(bookInformation.getBookInfoId());
         int originalCount = recordManager.getCheckOutRecordList().size();
@@ -43,7 +43,7 @@ public class BorrowBookTest extends AbstractSpringJpaTest {
     public void cannot_borrow_book() {
         collection.createBook("title", "author", ISBN, "image", "type", "Lab1321", 1, 3);
         String userId = UUID.randomUUID().toString();
-        Borrower borrower = new Borrower(userId);
+        Borrower borrower = new Borrower(userId, "Jay", "test@gmail.com");
         List<Book> bookList = collection.selectBook("title", "author", ISBN, "image", "type");
         collection.borrowBook(bookList.get(0).getBookId());
         recordManager.createCheckOutRecord("title", bookList.get(0).getBookId(), userId);
