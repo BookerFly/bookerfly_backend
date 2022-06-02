@@ -5,22 +5,26 @@ import ntut.edu.tw.bookerfly.entity.collection.Collection;
 import ntut.edu.tw.bookerfly.entity.record.RecordManager;
 import ntut.edu.tw.bookerfly.entity.user.Borrower;
 import ntut.edu.tw.bookerfly.respository.user.BorrowerRepository;
+import ntut.edu.tw.bookerfly.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Optional;
 
 @RestController
 public class ReturnBookHandler {
     private Collection collection;
     private RecordManager recordManager;
     private BorrowerRepository borrowerRepository;
+    private NoticeService noticeService;
 
     @Autowired
-    public ReturnBookHandler(Collection collection, RecordManager recordManager, BorrowerRepository borrowerRepository) {
+    public ReturnBookHandler(Collection collection, RecordManager recordManager, BorrowerRepository borrowerRepository, NoticeService noticeService) {
         this.collection = collection;
         this.recordManager = recordManager;
         this.borrowerRepository = borrowerRepository;
+        this.noticeService = noticeService;
     }
 
     @PutMapping(path = "bookerfly/collection/books/{bookId}/return", produces = "application/json")
@@ -45,6 +49,12 @@ public class ReturnBookHandler {
             Borrower borrower = borrowerRepository.findById(userId).get();
             borrower.decreaseLoanItemCount();
             borrowerRepository.save(borrower);
+
+            Optional<String> reserverId = recordManager.getReserver(bookId);
+            if(reserverId.isPresent()) {
+                collection.withholdBook(bookId);
+                noticeService.notice(bookId, reserverId.get());
+            }
 
             return new ResponseEntity<>("Success to confirm book returned.", HttpStatus.OK);
         } catch (Exception e) {

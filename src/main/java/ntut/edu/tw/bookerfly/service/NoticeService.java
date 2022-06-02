@@ -33,9 +33,12 @@ public class NoticeService {
             throw new RuntimeException();
         }
         String body = """
-                Hi %s!, 
+                Hi %s, 
                 This is Bookerfly's notice service :)
                 Your %s is ready for you.
+                
+                BR,
+                Bookerfly
                 """.formatted(user.get().getNickName(), book.get().getTitle());
 
         sendEmail(user.get().getEmail(), "Reserved Book is Available", body);
