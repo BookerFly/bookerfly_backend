@@ -2,10 +2,12 @@ package ntut.edu.tw.bookerfly.config;
 
 import ntut.edu.tw.bookerfly.entity.collection.Collection;
 import ntut.edu.tw.bookerfly.entity.record.RecordManager;
+import ntut.edu.tw.bookerfly.entity.user.Organization;
 import ntut.edu.tw.bookerfly.respository.collection.BookInformationRepository;
 import ntut.edu.tw.bookerfly.respository.collection.BookRepository;
 import ntut.edu.tw.bookerfly.respository.record.CheckOutRecordRepository;
 import ntut.edu.tw.bookerfly.respository.record.ReservationRecordRepository;
+import ntut.edu.tw.bookerfly.respository.user.BorrowerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +24,8 @@ public class EntityInjection {
     private CheckOutRecordRepository checkOutRecordRepository;
     @Autowired
     private ReservationRecordRepository reservationRecordRepository;
+    @Autowired
+    private BorrowerRepository borrowerRepository;
 
     @Bean
     public Collection collection() {
@@ -31,5 +35,10 @@ public class EntityInjection {
     @Bean
     public RecordManager recordManager() {
         return new RecordManager(checkOutRecordRepository, reservationRecordRepository);
+    }
+
+    @Bean
+    public Organization organization() {
+        return new Organization(borrowerRepository);
     }
 }

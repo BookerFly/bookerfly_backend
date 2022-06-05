@@ -4,6 +4,7 @@ import ntut.edu.tw.bookerfly.AbstractSpringJpaTest;
 import ntut.edu.tw.bookerfly.entity.collection.Book;
 import ntut.edu.tw.bookerfly.entity.collection.BookStatus;
 import org.junit.jupiter.api.Test;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ManageBookTest extends AbstractSpringJpaTest {
@@ -12,7 +13,11 @@ public class ManageBookTest extends AbstractSpringJpaTest {
         collection.createBook("title", "author", ISBN, "image", "type", "Lab1321", 1, 3);
         collection.createBook("title2", "author2", ISBN, "image2", "type2", "Lab1324", 1, 2);
 
-        assertEquals(5, collection.getCount());
+        List<Book> books = collection.selectBook("title", "author", ISBN, "image", "type");
+        List<Book> books2 = collection.selectBook("title2", "author2", ISBN, "image2", "type2");
+
+        assertEquals(3, books.size());
+        assertEquals(2, books2.size());
     }
 
     @Test

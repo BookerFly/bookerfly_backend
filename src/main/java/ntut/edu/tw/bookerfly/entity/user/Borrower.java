@@ -1,9 +1,9 @@
 package ntut.edu.tw.bookerfly.entity.user;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import ntut.edu.tw.bookerfly.entity.collection.BookInformation;
+import ntut.edu.tw.bookerfly.entity.favoritelist.FavoriteList;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "borrower")
@@ -21,6 +21,12 @@ public class Borrower {
     @Column(name = "loan_item_count")
     private int loanItemCount;
 
+    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinTable(name = "favorite_list_in_borrower",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "favorite_list_id"))
+    private FavoriteList favoriteList;
+
     public Borrower() {
     }
 
@@ -29,6 +35,7 @@ public class Borrower {
         this.nickName = nickName;
         this.email = email;
         loanItemCount = 0;
+        favoriteList = new FavoriteList();
     }
 
     public boolean hasBorrowQualification() {
@@ -73,5 +80,17 @@ public class Borrower {
 
     public void setLoanItemCount(int loanItemCount) {
         this.loanItemCount = loanItemCount;
+    }
+
+    public FavoriteList getFavoriteList() {
+        return favoriteList;
+    }
+
+    public void addFavoriteBook(BookInformation bookInformation) {
+        favoriteList.add(bookInformation);
+    }
+
+    public void removeFavoriteBook(BookInformation bookInformation) {
+        favoriteList.remove(bookInformation);
     }
 }
