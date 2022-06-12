@@ -24,7 +24,6 @@ public class ManageFavoriteListHandler {
     public ResponseEntity<String> addFavoriteBook(@PathVariable("userId") String userId,
                                                   @RequestParam String bookInfoId) {
         try {
-            Borrower borrower = organization.getBorrower(userId).get();
             BookInformation bookInformation = collection.getBookInformationById(bookInfoId).get();
 
             organization.addFavoriteBook(userId, bookInformation);
@@ -39,7 +38,6 @@ public class ManageFavoriteListHandler {
     public ResponseEntity<String> removeFavoriteBook(@PathVariable("userId") String userId,
                                                   @RequestParam String bookInfoId) {
         try {
-            Borrower borrower = organization.getBorrower(userId).get();
             BookInformation bookInformation = collection.getBookInformationById(bookInfoId).get();
 
             organization.removeFavoriteBook(userId, bookInformation);

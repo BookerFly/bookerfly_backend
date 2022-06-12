@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 public class DemoTest extends AbstractSpringJpaTest{
     @Test
     public void prepare_demo_data() {
-        borrowerRepository.save(new Borrower("userId", "Jay", "test@gmail.com"));
+        borrowerRepository.save(new Borrower("userId", "Jay", "bookerfly.csie.ntut@gmail.com"));
 
         collection.createBook("OOAD", "Larman", "ISBN", "", "Book", "Lab1321", 1, 2);
         collection.createBook("OOAD", "Larman", "ISBN", "", "Book", "Lab1324", 2, 1);

@@ -13,16 +13,14 @@ public class Organization {
 
     public Organization(BorrowerRepository borrowerRepository) {
         this.borrowerRepository = borrowerRepository;
-        borrowers = borrowerRepository.findAll();
     }
 
     public Optional<Borrower> getBorrower(String userId) {
-        return borrowers.stream().filter(x -> x.getUserId().equals(userId)).findFirst();
+        return borrowerRepository.findById(userId);
     }
 
     public void addBorrower(Borrower borrower) {
         borrowerRepository.save(borrower);
-        borrowers.add(borrower);
     }
 
     public void addFavoriteBook(String userId, BookInformation bookInformation) {
