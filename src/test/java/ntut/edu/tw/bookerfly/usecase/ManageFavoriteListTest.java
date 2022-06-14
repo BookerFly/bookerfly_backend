@@ -17,12 +17,8 @@ public class ManageFavoriteListTest extends AbstractSpringJpaTest {
         organization.addBorrower(borrower);
         BookInformation bookInformation = new BookInformation("端午節", "屈原", UUID.randomUUID().toString(), "image", "type");
 
-        Borrower readBorrower = organization.getBorrower(userId).get();
-        readBorrower.addFavoriteBook(bookInformation);
-        borrowerRepository.save(readBorrower);
+        organization.addFavoriteBook(userId, bookInformation);
 
-        assertFalse(borrower.getFavoriteList().isEmpty());
-        assertTrue(borrower.getFavoriteList().getBookInfoList().contains(bookInformation));
         Borrower dbBorrower = borrowerRepository.findById(userId).get();
         assertFalse(dbBorrower.getFavoriteList().isEmpty());
         assertTrue(dbBorrower.getFavoriteList().getBookInfoList().stream().anyMatch(x -> x.getBookInfoId().equals(bookInformation.getBookInfoId())));
@@ -35,15 +31,10 @@ public class ManageFavoriteListTest extends AbstractSpringJpaTest {
         Organization organization = new Organization(borrowerRepository);
         organization.addBorrower(borrower);
         BookInformation bookInformation = new BookInformation("端午節", "屈原", UUID.randomUUID().toString(), "image", "type");
-        Borrower readBorrower = organization.getBorrower(userId).get();
-        readBorrower.addFavoriteBook(bookInformation);
-        borrowerRepository.save(readBorrower);
+        organization.addFavoriteBook(userId, bookInformation);
 
-        readBorrower = organization.getBorrower(userId).get();
-        readBorrower.removeFavoriteBook(bookInformation);
-        borrowerRepository.save(readBorrower);
+        organization.removeFavoriteBook(userId, bookInformation);
 
-        assertTrue(borrower.getFavoriteList().isEmpty());
         Borrower dbBorrower = borrowerRepository.findById(userId).get();
         assertTrue(dbBorrower.getFavoriteList().isEmpty());
     }
@@ -55,14 +46,12 @@ public class ManageFavoriteListTest extends AbstractSpringJpaTest {
         Organization organization = new Organization(borrowerRepository);
         organization.addBorrower(borrower);
         BookInformation bookInformation = new BookInformation("端午節", "屈原", UUID.randomUUID().toString(), "image", "type");
-        Borrower readBorrower = organization.getBorrower(userId).get();
-        readBorrower.addFavoriteBook(bookInformation);
-        borrowerRepository.save(readBorrower);
+        organization.addFavoriteBook(userId, bookInformation);
 
-        BookInformation readBookInformation = borrowerRepository.findById(userId).get().getFavoriteList().getBookInfoList().iterator().next();
-        readBorrower.addFavoriteBook(readBookInformation);
+        organization.addFavoriteBook(userId, bookInformation);
 
-        assertFalse(readBorrower.getFavoriteList().isEmpty());
-        assertEquals(1, readBorrower.getFavoriteList().getBookInfoList().size());
+        Borrower dbBorrower = borrowerRepository.findById(userId).get();
+        assertFalse(dbBorrower.getFavoriteList().isEmpty());
+        assertEquals(1, dbBorrower.getFavoriteList().getBookInfoList().size());
     }
 }
